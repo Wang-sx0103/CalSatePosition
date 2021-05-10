@@ -21,7 +21,7 @@ def outStream():
     if os.path.exists("./output/" + satPosition.fileName):
         return
     else:
-        fileOut = open("./output/" + fileName, "w", encoding="utf-8")
+        fileOut = open("./output/" + fileName[0:-4], "w", encoding="utf-8")
         fileOut.write("{:<9}".format("Epoch"))
         fileOut.write("{:<15}".format("X"))
         fileOut.write("{:<15}".format("Y"))
