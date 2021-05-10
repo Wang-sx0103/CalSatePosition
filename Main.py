@@ -6,21 +6,22 @@ from ClassCalSatePosi import CalSatePosi
 def init():
     global satNum
     satNum = 60
-    if os.path.exists("./Date"):
-        for fileName in range(os.listdir("./Date")):
+    if os.path.exists("./data"):
+        for fileName in os.listdir("./data"):
             global satPosition
             satPosition = CalSatePosi(fileName, satNum)
             outStream()
+            del satPosition
     else:
         print("数据不存在！")
 
 
 def outStream():
     fileName = satPosition.fileName + "SatellitePosition.txt"
-    if os.path.exists("./Output/" + satPosition.fileName):
+    if os.path.exists("./output/" + satPosition.fileName):
         return
     else:
-        fileOut = open("./Output" + fileName, "w", encoding="utf-8")
+        fileOut = open("./output/" + fileName, "w", encoding="utf-8")
         fileOut.write("{:<9}".format("Epoch"))
         fileOut.write("{:<15}".format("X"))
         fileOut.write("{:<15}".format("Y"))
@@ -32,8 +33,8 @@ def outStream():
             for j in range(2880):
                 fileOut.write(timeFormat(j*30))
                 fileOut.write("{:<15.3f}".format(satPosition.X[i][j]))
-                fileOut.write("{:<15.3f}".format(satPosition.XY[i][j]))
-                fileOut.write("{:<15.3f}".format(satPosition.XZ[i][j]))
+                fileOut.write("{:<15.3f}".format(satPosition.Y[i][j]))
+                fileOut.write("{:<15.3f}".format(satPosition.Z[i][j]))
                 fileOut.write("\n")
         fileOut.close()
 
@@ -52,5 +53,4 @@ def timeFormat(epoch):
 
 if __name__ == "__main__":
     init()
-    outStream()
     print("end!")
