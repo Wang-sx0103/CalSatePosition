@@ -8,12 +8,16 @@ def init():
     satNum = 60
     if os.path.exists("./data"):
         for fileName in os.listdir("./data"):
-            global satPosition
-            satPosition = CalSatePosi(fileName, satNum)
-            outStream()
-            del satPosition
+            if fileName.split(".")[-1] == "rnx":
+                global satPosition
+                satPosition = CalSatePosi(fileName, satNum)
+                outStream()
+                del satPosition
+            else:
+                print("Exit a non crx file!")
     else:
-        print("数据不存在！")
+        os.mkdir("data")
+        print("Please put the Navigation file into data folder!")
 
 
 def outStream():
@@ -21,6 +25,8 @@ def outStream():
     if os.path.exists("./output/" + satPosition.fileName):
         return
     else:
+        if not os.path.exists("./output"):
+            os.mkdir("output")
         fileOut = open("./output/" + fileName, "w", encoding="utf-8")
         fileOut.write("{:<9}".format("Epoch"))
         fileOut.write("{:<15}".format("X"))
@@ -53,4 +59,4 @@ def timeFormat(epoch):
 
 if __name__ == "__main__":
     init()
-    print("end!")
+    print("Run Successfully!")
